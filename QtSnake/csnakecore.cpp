@@ -96,8 +96,11 @@ void CSnakeCore::drawGameTitle(QPainter &p)
 	static QString t2 = QString::fromLocal8Bit("双人游戏");
 	static QString t3 = QString::fromLocal8Bit("三人游戏");
 	static QString t4 = QString::fromLocal8Bit("四人游戏");
-	static QFont titleItemFont;
+	static QString title = "Snake";
+	static QFont titleItemFont, titleFont;
 
+	titleFont.setPointSize(90);
+	titleFont.setBold(true);
 	titleItemFont.setPointSize(16);
 	titleItemFont.setBold(true);
 	p.setFont(titleItemFont);
@@ -125,11 +128,16 @@ void CSnakeCore::drawGameTitle(QPainter &p)
 	pen.setBrush(Qt::white);
 	p.setPen(pen);
 	p.drawRect(x - rectSpc, ty[pn] - rectSpc - h + 3, w + rectSpc2, h + rectSpc2);
+
+	QFontMetrics tme(titleFont);
+	p.setFont(titleFont);
+	p.drawText(m_centerpt.x() - tme.width(title) / 2, 50 + tme.height(), title);
 }
 
 void CSnakeCore::drawGameObject(QPainter &p)
 {
 	QFont font = p.font();
+	font.setBold(true);
 	p.setPen(Qt::black);
 	QColor cuc = Qt::white;
 	int itemId = -1;
@@ -166,13 +174,12 @@ void CSnakeCore::drawGameObject(QPainter &p)
 			QRect rect(25 + (k - 1) * 10, 25 + (i - 1) * 10, 10, 10);
 			p.drawRect(rect);
 			
-			static QString s[4] = { "长", "速", "缓", "石" };
+			static QString s[4] = { "∏", "≡", "≈", "▲" };
 			if (m_map[i][k] == Item && m_item != None)
 			{
-				font.setBold(true);
 				p.setPen(Qt::white);
 				p.setFont(font);
-				p.drawText(rect.x() - 2, rect.y() - 2, rect.width() + 2, rect.height() + 2, Qt::AlignCenter, s[m_item - 1]);
+				p.drawText(rect.x() + 1, rect.y() + 1, rect.width(), rect.height(), Qt::AlignCenter, s[m_item - 1]);
 				p.setPen(Qt::black);
 			}
 		}
@@ -186,18 +193,29 @@ void CSnakeCore::drawGamePause(QPainter &p)
 void CSnakeCore::drawGameOver(QPainter &p)
 {
 	p.setBrush(QColor(0, 0, 0, 168));
-	p.setPen(Qt::white);
 	p.drawRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
 	static QString gotext = "Game Over";
 	static QFont font;
-	font.setPointSize(30);
+	font.setPointSize(60);
 	font.setBold(true);
+	QPen pen;
+	pen.setColor(Qt::white);
+	pen.setWidth(5);
+	p.setPen(pen);
 	p.setFont(font);
 	QFontMetrics metrics(p.font());
 	int w = metrics.width(gotext);
 	int h = metrics.height();
 	p.drawText(m_centerpt.x() - w / 2, m_centerpt.y() - h / 4, gotext);
+
+	static QString keytip = QString::fromLocal8Bit("Esc键回到标题 回车重新开始");
+	font.setPointSize(20);
+	p.setFont(font);
+	metrics = QFontMetrics(p.font());
+	w = metrics.width(keytip);
+	h = metrics.height();
+	p.drawText(m_centerpt.x() - w / 2, m_centerpt.y() + h + 10, keytip);
 }
 
 void CSnakeCore::keyGameTitle(int key)

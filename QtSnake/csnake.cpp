@@ -143,6 +143,7 @@ void CSnake::move(QPoint to)
 	{
 		m_body.push_back(tail);
 		emit setBlock(tail.y(), tail.x(), CSnakeCore::Snake);
+		--m_itemSurplus;
 	}
 }
 
@@ -195,11 +196,11 @@ void CSnake::getItem(CSnakeCore::GameItem item)
 		break;
 
 	case CSnakeCore::SpeedUp:
-		x =  CSnakeCore::speedBySize(m_body.length());
+		x = -CSnakeCore::speedBySize(m_body.length()) / 2;
 		break;
 
 	case CSnakeCore::SpeedDown:
-		x =  -CSnakeCore::speedBySize(m_body.length()) / 2;
+		x = CSnakeCore::speedBySize(m_body.length());
 		break;
 	}
 
