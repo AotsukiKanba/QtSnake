@@ -7,8 +7,8 @@
 #define WINDOW_WIDTH	640
 #define WINDOW_HEIGHT	480
 
-#define MAP_WIDTH		50
-#define MAP_HEIGHT		50
+#define MAP_WIDTH		45
+#define MAP_HEIGHT		45
 
 #define MAX_PLAYER		4
 
@@ -24,15 +24,16 @@ public:
 	enum GameState { GameTitle, GameStarting, GamePause, GameOver };
 	enum GamePlayer { P1, P2, P3, P4 };
 	enum GameObject { Empty, Snake, Food, Wall, Corpse, Item };
-	enum GameItem { None };
-	enum GameDirection { Up, Dwon, Left, Right };
+	enum GameItem { None, Longer, SpeedUp, SpeedDown, Meteorite };
+	enum GameDirection { Up, Left, Down, Right };
 
 	CSnakeCore(QWidget *parent = 0, Qt::WFlags flags = 0);
 	~CSnakeCore();
 	static int speedBySize(int size);
 
 private Q_SLOTS:
-	void onSnakeMove(QPoint to, QPoint tail);
+	void onSnakeMove(int id, QPoint to, QPoint tail);
+	inline void setBlockState(int x, int y, CSnakeCore::GameObject g) { m_map[x][y] = g; }
 
 protected:
 	void paintEvent(QPaintEvent *e);
@@ -49,6 +50,9 @@ protected:
 	void keyGameOver(int key);
 
 	void startGame();
+	void gameOver();
+	void addFood();
+	void addMeteorite();
 
 	QPoint m_centerpt;
 	QRect m_mainRect;
@@ -56,8 +60,12 @@ protected:
 private:
 	GameState m_state;
 	GamePlayer m_player;
+	GameItem m_item;
 	GameObject m_map[MAP_WIDTH][MAP_HEIGHT];
 	CSnake *m_snakes;
+	int m_winner;
+	QPoint m_foodpos;
+	QPoint m_itempos;
 };
 
 #endif // SNAKECORE_H

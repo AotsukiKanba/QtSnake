@@ -5,7 +5,7 @@
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
-	QTextCodec::setCodecForCStrings(QTextCodec::codecForName("GBK"));
+	QTextCodec::setCodecForCStrings(QTextCodec::codecForName("GB2312"));
 
 	CSnakeCore w;
 	w.show();
