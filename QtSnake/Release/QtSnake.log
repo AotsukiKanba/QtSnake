@@ -1,13 +1,19 @@
-﻿生成启动时间为 2015/5/20 17:36:39。
+﻿生成启动时间为 2015/5/21 18:08:06。
      1>项目“E:\doc\tool\QtSnake\QtSnake\QtSnake.vcxproj”在节点 2 上(build 个目标)。
      1>InitializeBuildStatus:
          正在创建“Release\QtSnake.unsuccessfulbuild”，因为已指定“AlwaysCreate”。
        CustomBuild:
-         所有输出均为最新。
+         Moc'ing csnakecore.h...
+         Moc'ing csnake.h...
        ClCompile:
          所有输出均为最新。
-         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I.\GeneratedFiles /I. /IC:\Qt\4.8.6\include /I.\GeneratedFiles\Release /IC:\Qt\4.8.6\include\QtCore /IC:\Qt\4.8.6\include\QtGui /nologo /W1 /WX- /O2 /Oy- /D UNICODE /D WIN32 /D QT_DLL /D QT_NO_DEBUG /D NDEBUG /D QT_CORE_LIB /D QT_GUI_LIB /Gm- /EHsc /MD /GS /fp:precise /Zc:wchar_t- /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt csnakecore.cpp
+         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I.\GeneratedFiles /I. /IC:\Qt\4.8.6\include /I.\GeneratedFiles\Release /IC:\Qt\4.8.6\include\QtCore /IC:\Qt\4.8.6\include\QtGui /nologo /W1 /WX- /O2 /Oy- /D UNICODE /D WIN32 /D QT_DLL /D QT_NO_DEBUG /D NDEBUG /D QT_CORE_LIB /D QT_GUI_LIB /Gm- /EHsc /MD /GS /fp:precise /Zc:wchar_t- /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt GeneratedFiles\Release\moc_csnake.cpp GeneratedFiles\Release\moc_csnakecore.cpp csnake.cpp csnakecore.cpp main.cpp
+         moc_csnake.cpp
+         moc_csnakecore.cpp
+         csnake.cpp
          csnakecore.cpp
+         main.cpp
+         正在生成代码...
        Link:
          C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\doc\tool\QtSnake\Win32\Release\\QtSnake.exe" /NOLOGO /LIBPATH:C:\Qt\4.8.6\lib qtmain.lib QtCore4.lib QtGui4.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Release\QtSnake.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /PDB:"E:\doc\tool\QtSnake\Win32\Release\QtSnake.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\doc\tool\QtSnake\Win32\Release\QtSnake.lib" /MACHINE:X86 Release\qrc_qtsnake.obj
          Release\moc_csnake.obj
@@ -25,4 +31,4 @@
 
 生成成功。
 
-已用时间 00:00:01.04
+已用时间 00:00:05.69

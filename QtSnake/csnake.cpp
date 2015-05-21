@@ -1,5 +1,7 @@
 #include "csnake.h"
 
+#define SNAKE CSnakeCore::GameObject(CSnakeCore::SnakeP1 + m_id)
+
 CSnake::CSnake()
 	: m_state(Inactive)
 	, m_id(-1)
@@ -38,9 +40,9 @@ void CSnake::initSnake(int p)
 		m_body.push_back(QPoint(left + 3, h2));
 		m_body.push_back(QPoint(left + 2, h2));
 		m_body.push_back(QPoint(left + 1, h2));
-		emit setBlock(h2, left + 3, CSnakeCore::Snake);
-		emit setBlock(h2, left + 2, CSnakeCore::Snake);
-		emit setBlock(h2, left + 1, CSnakeCore::Snake);
+		emit setBlock(h2, left + 3, SNAKE);
+		emit setBlock(h2, left + 2, SNAKE);
+		emit setBlock(h2, left + 1, SNAKE);
 		m_direct = CSnakeCore::Right;
 		break;
 
@@ -48,9 +50,9 @@ void CSnake::initSnake(int p)
 		m_body.push_back(QPoint(right - 3, h2));
 		m_body.push_back(QPoint(right - 2, h2));
 		m_body.push_back(QPoint(right - 1, h2));
-		emit setBlock(h2, right - 3, CSnakeCore::Snake);
-		emit setBlock(h2, right - 2, CSnakeCore::Snake);
-		emit setBlock(h2, right - 1, CSnakeCore::Snake);
+		emit setBlock(h2, right - 3, SNAKE);
+		emit setBlock(h2, right - 2, SNAKE);
+		emit setBlock(h2, right - 1, SNAKE);
 		m_direct = CSnakeCore::Left;
 		break;
 
@@ -58,9 +60,9 @@ void CSnake::initSnake(int p)
 		m_body.push_back(QPoint(w2, top + 3));
 		m_body.push_back(QPoint(w2, top + 2));
 		m_body.push_back(QPoint(w2, top + 1));
-		emit setBlock(top + 3, w2, CSnakeCore::Snake);
-		emit setBlock(top + 2, w2, CSnakeCore::Snake);
-		emit setBlock(top + 1, w2, CSnakeCore::Snake);
+		emit setBlock(top + 3, w2, SNAKE);
+		emit setBlock(top + 2, w2, SNAKE);
+		emit setBlock(top + 1, w2, SNAKE);
 		m_direct = CSnakeCore::Down;
 		break;
 
@@ -68,9 +70,9 @@ void CSnake::initSnake(int p)
 		m_body.push_back(QPoint(w2, bottom - 3));
 		m_body.push_back(QPoint(w2, bottom - 2));
 		m_body.push_back(QPoint(w2, bottom - 1));
-		emit setBlock(bottom - 3, w2, CSnakeCore::Snake);
-		emit setBlock(bottom - 2, w2, CSnakeCore::Snake);
-		emit setBlock(bottom - 1, w2, CSnakeCore::Snake);
+		emit setBlock(bottom - 3, w2, SNAKE);
+		emit setBlock(bottom - 2, w2, SNAKE);
+		emit setBlock(bottom - 1, w2, SNAKE);
 		m_direct = CSnakeCore::Up;
 		break;
 	}
@@ -141,8 +143,7 @@ void CSnake::move(QPoint to)
 
 	if (m_itemSurplus > 0)
 	{
-		m_body.push_back(tail);
-		emit setBlock(tail.y(), tail.x(), CSnakeCore::Snake);
+		grow(tail);
 		--m_itemSurplus;
 	}
 }
@@ -155,7 +156,7 @@ void CSnake::setId(int id)
 void CSnake::grow(QPoint tail)
 {
 	m_body.push_back(tail);
-	emit setBlock(tail.y(), tail.x(), CSnakeCore::Snake);
+	emit setBlock(tail.y(), tail.x(), SNAKE);
 
 	int x = 0;
 	if (m_item ==  CSnakeCore::SpeedUp)
@@ -187,6 +188,7 @@ void CSnake::checkItemTimeOut()
 void CSnake::getItem(CSnakeCore::GameItem item)
 {
 	m_item = item;
+	m_itemSurplus = 0;
 	int x = 0;
 
 	switch (m_item)
@@ -210,4 +212,9 @@ void CSnake::getItem(CSnakeCore::GameItem item)
 		m_timer.setInterval(CSnakeCore::speedBySize(m_body.length()) + x);
 		m_timer.start();
 	}
+}
+
+int CSnake::size()
+{
+	return m_state == Inactive ? 0 : m_body.size();
 }

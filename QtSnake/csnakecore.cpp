@@ -136,53 +136,90 @@ void CSnakeCore::drawGameTitle(QPainter &p)
 
 void CSnakeCore::drawGameObject(QPainter &p)
 {
+	static QColor gocolors[] = { Qt::transparent, Qt::red, Qt::white, Qt::gray, Qt::black, Qt::green, Qt::blue, Qt::cyan, Qt::magenta };
+	static QString ss[5] = { "", "♂", "≡", "≈", "▲" };
+	static QString sd[5] = { "", QString::fromLocal8Bit("增长"),  QString::fromLocal8Bit("加速"),  QString::fromLocal8Bit("减速"),  QString::fromLocal8Bit("陨石") };
+
 	QFont font = p.font();
 	font.setBold(true);
 	p.setPen(Qt::black);
 	QColor cuc = Qt::white;
 	int itemId = -1;
 	for (int i = 0; i < MAP_HEIGHT; ++i)
-		for (int k = 0; k < MAP_WIDTH; ++k)
+	{	for (int k = 0; k < MAP_WIDTH; ++k)
 		{
 			if (m_map[i][k] == Empty)
 				continue;
+			cuc = gocolors[m_map[i][k]];
 
-			switch (m_map[i][k])
-			{
-			case Snake:
-				cuc = Qt::green;
-				break;
-				
-			case Food:
-				cuc = Qt::red;
-				break;
-
-			case Wall:
-				cuc = Qt::white;
-				break;
-
-			case Item:
-				cuc = Qt::blue;
-				break;
-
-			case Corpse:
-				cuc = Qt::gray;
-				break;
-			}
-			
 			p.setBrush(cuc);
 			QRect rect(25 + (k - 1) * 10, 25 + (i - 1) * 10, 10, 10);
 			p.drawRect(rect);
 			
-			static QString s[4] = { "∏", "≡", "≈", "▲" };
 			if (m_map[i][k] == Item && m_item != None)
 			{
 				p.setPen(Qt::white);
 				p.setFont(font);
-				p.drawText(rect.x() + 1, rect.y() + 1, rect.width(), rect.height(), Qt::AlignCenter, s[m_item - 1]);
+				p.drawText(rect.x() + 2, rect.y() + 2, rect.width(), rect.height(), Qt::AlignCenter, ss[m_item]);
 				p.setPen(Qt::black);
 			}
 		}
+	}
+
+	// GameInfo
+	int ix = 25 + MAP_WIDTH * 10 + 10;
+	int iy = 35;
+	int icx = WINDOW_WIDTH - 30;
+	int ispc = 70;
+	QFont capfont;
+	capfont.setPointSize(16);
+	capfont.setFamily(QString::fromLocal8Bit("微软雅黑"));
+	capfont.setBold(true);
+	QFont texfont = capfont;
+	texfont.setPointSize(10);
+	QFontMetrics capmt(capfont);
+	QFontMetrics texmt(texfont);
+	int texspc = 1;
+
+	QString ctrls[4] = {"↑ ↓ ← →", "W S A D", "I K J L", "8 5 4 6"};
+	for (int i = 0; i <= m_player; ++i)
+	{
+		p.setFont(capfont);
+		p.setPen(gocolors[SnakeP1 + i]);
+		int ty = iy + i * ispc;
+		p.drawText(ix, ty, QString::number(i + 1) + "P");
+		p.setFont(texfont);
+		p.setPen(Qt::white);
+		ty += capmt.height() * 0.7 + texspc;
+		p.drawText(ix, ty, QString::fromLocal8Bit("得分: ") + QString::number((m_snakes[i].size() - 3) * 100));
+		ty += texmt.height() + texspc;
+		p.drawText(ix, ty, QString::fromLocal8Bit("控制键: ") + ctrls[i]);
+	}
+
+	int ity = iy + MAX_PLAYER * ispc;
+	p.setFont(capfont);
+	p.setPen(QColor(250, 192, 128));
+	p.drawText(ix, ity, QString::fromLocal8Bit("道具列表"));
+	p.setPen(Qt::white);
+	p.setFont(texfont);
+	for (int i = 0; i < 4; ++i)
+	{
+		int itdy = ity + capmt.height() * 0.8 + i * (texmt.height() + texspc);
+		p.drawText(ix, itdy, ss[i + 1]);
+		p.drawText(ix + 15, itdy, ": " + sd[i + 1]);
+	}
+
+	int sty = ity + capmt.height() + 4 * (texmt.height() + texspc) + 5;
+	p.setFont(capfont);
+	p.setPen(QColor(255, 97, 0));
+	p.drawText(ix, sty, QString::fromLocal8Bit("游戏时间"));
+	p.setPen(Qt::white);
+	int time = m_starttime.secsTo(QTime::currentTime());
+	int mn = time / 60;
+	int se = time % 60;
+	QString smn = (mn < 10) ? QString("0%1").arg(mn) : QString::number(mn);
+	QString sse = (se < 10) ? QString("0%1").arg(se) : QString::number(se);
+	p.drawText(ix, sty + capmt.height() + texspc, QString("%1 : %2").arg(smn).arg(sse));
 }
 
 void CSnakeCore::drawGamePause(QPainter &p)
@@ -195,8 +232,8 @@ void CSnakeCore::drawGameOver(QPainter &p)
 	p.setBrush(QColor(0, 0, 0, 168));
 	p.drawRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
-	static QString gotext = "Game Over";
-	static QFont font;
+	QString s = m_player == P1 ? "Game Over" : "Winner P" + QString::number(m_winner + 1);
+	QFont font;
 	font.setPointSize(60);
 	font.setBold(true);
 	QPen pen;
@@ -205,17 +242,17 @@ void CSnakeCore::drawGameOver(QPainter &p)
 	p.setPen(pen);
 	p.setFont(font);
 	QFontMetrics metrics(p.font());
-	int w = metrics.width(gotext);
+	int w = metrics.width(s);
 	int h = metrics.height();
-	p.drawText(m_centerpt.x() - w / 2, m_centerpt.y() - h / 4, gotext);
+	p.drawText(m_centerpt.x() - w / 2, m_centerpt.y() - h / 4, s);
 
-	static QString keytip = QString::fromLocal8Bit("Esc键回到标题 回车重新开始");
-	font.setPointSize(20);
+	static QString keytip = QString::fromLocal8Bit("Esc键返回菜单 回车重新开始");
+	font.setPointSize(18);
 	p.setFont(font);
 	metrics = QFontMetrics(p.font());
 	w = metrics.width(keytip);
 	h = metrics.height();
-	p.drawText(m_centerpt.x() - w / 2, m_centerpt.y() + h + 10, keytip);
+	p.drawText(m_centerpt.x() - w / 2, m_centerpt.y() + h + 40, keytip);
 }
 
 void CSnakeCore::keyGameTitle(int key)
@@ -337,6 +374,7 @@ void CSnakeCore::startGame()
 	m_winner = -1;
 	m_foodpos = QPoint(0, 0);
 	m_itempos = QPoint(0, 0);
+	m_starttime = QTime::currentTime();
 	
 	for (int i = 0; i < MAP_WIDTH; ++i)
 		for (int k = 0; k < MAP_HEIGHT; ++k)
@@ -360,8 +398,8 @@ void CSnakeCore::startGame()
 
 int CSnakeCore::speedBySize(int size)
 {
-	int s = 300 - size * 10;
-	return s > 50 ? s : 50;
+	int s = 300 - size * 5;
+	return s > 40 ? s : 40;
 }
 
 void CSnakeCore::onSnakeMove(int id, QPoint to, QPoint tail)
@@ -371,7 +409,7 @@ void CSnakeCore::onSnakeMove(int id, QPoint to, QPoint tail)
 	GameObject g = m_map[to.y()][to.x()];
 	if (g == Food)
 		isgrow = true;
-	if (g == Snake || g == Wall || g == Corpse)
+	if (g == SnakeP1 || g == SnakeP2 || g == SnakeP3 || g == SnakeP4 || g == Wall || g == Corpse)
 		m_snakes[id].die();
 	if (g == Item)
 	{
@@ -384,7 +422,7 @@ void CSnakeCore::onSnakeMove(int id, QPoint to, QPoint tail)
 	if (m_snakes[id].isLiving())
 	{
 		setBlockState(tail.y(), tail.x(), Empty);
-		setBlockState(to.y(), to.x(), Snake);
+		setBlockState(to.y(), to.x(), GameObject(SnakeP1 + id));
 		m_snakes[id].move(to);
 
 		if (isgrow)
@@ -447,14 +485,11 @@ void CSnakeCore::addFood()
 		}
 	}
 
-	if (m_map[m_itempos.x()][m_itempos.y()] != Item)
-		m_item = None;
-	if (m_item != None)
-		return ;
-
-	int i = qrand() % 4;
-	if (i == 0)
+	int i = qrand() % 22;
+	if (i % 3 == 0)
 	{
+		if (m_map[m_itempos.x()][m_itempos.y()] == Item)
+			setBlockState(m_itempos.x(), m_itempos.y(), Empty);
 		for(;;)
 		{
 			x = qrand() % MAP_WIDTH;
@@ -465,7 +500,7 @@ void CSnakeCore::addFood()
 			if (m_map[x][y] == Empty)
 			{
 				m_item = GameItem(qrand() % 5);
-				if (m_item <= 0 || m_item >=5)
+				if (m_item <= 0 || m_item >= 5)
 					continue;
 				setBlockState(x, y, Item);
 				m_itempos = QPoint(x, y);

@@ -30,6 +30,7 @@ public:
 	bool isLiving();
 	void stopSnake();
 	void getItem(CSnakeCore::GameItem item);
+	int size();
 
 protected:
 	void checkItemTimeOut();

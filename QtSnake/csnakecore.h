@@ -2,6 +2,7 @@
 #define SNAKECORE_H
 
 #include <QtCore/QPoint>
+#include <QtCore/QTime>
 #include <QtGui/QWidget>
 
 #define WINDOW_WIDTH	640
@@ -23,7 +24,7 @@ class CSnakeCore : public QWidget
 public:
 	enum GameState { GameTitle, GameStarting, GamePause, GameOver };
 	enum GamePlayer { P1, P2, P3, P4 };
-	enum GameObject { Empty, Snake, Food, Wall, Corpse, Item };
+	enum GameObject { Empty, Food, Wall, Corpse, Item, SnakeP1, SnakeP2, SnakeP3, SnakeP4 };
 	enum GameItem { None, Longer, SpeedUp, SpeedDown, Meteorite };
 	enum GameDirection { Up, Left, Down, Right };
 
@@ -66,6 +67,7 @@ private:
 	int m_winner;
 	QPoint m_foodpos;
 	QPoint m_itempos;
+	QTime m_starttime;
 };
 
 #endif // SNAKECORE_H
