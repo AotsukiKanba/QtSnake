@@ -9,6 +9,10 @@
 *.so
 *.dll
 *.dylib
+*.tlog
+*.log
+*.obj
+
 
 # Qt-es
 

@@ -1,24 +1,15 @@
-﻿生成启动时间为 2015/5/21 18:07:30。
+﻿生成启动时间为 2015/5/22 17:53:29。
      1>项目“E:\doc\tool\QtSnake\QtSnake\QtSnake.vcxproj”在节点 2 上(build 个目标)。
      1>InitializeBuildStatus:
          正在创建“Debug\QtSnake.unsuccessfulbuild”，因为已指定“AlwaysCreate”。
        CustomBuild:
          所有输出均为最新。
        ClCompile:
-         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I.\GeneratedFiles /I. /IC:\Qt\4.8.6\include /I.\GeneratedFiles\Debug /IC:\Qt\4.8.6\include\QtCore /IC:\Qt\4.8.6\include\QtGui /Zi /nologo /W1 /WX- /Od /Oy- /D UNICODE /D WIN32 /D QT_DLL /D QT_CORE_LIB /D QT_GUI_LIB /D _UNICODE /D UNICODE /Gm- /EHsc /MDd /GS /fp:precise /Zc:wchar_t- /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt csnakecore.cpp
-         csnakecore.cpp
+         所有输出均为最新。
          所有输出均为最新。
        Link:
-         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\doc\tool\QtSnake\Win32\Debug\\QtSnake.exe" /NOLOGO /LIBPATH:C:\Qt\4.8.6\lib qtmaind.lib QtCored4.lib QtGuid4.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\QtSnake.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"E:\doc\tool\QtSnake\Win32\Debug\QtSnake.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\doc\tool\QtSnake\Win32\Debug\QtSnake.lib" /MACHINE:X86 Debug\moc_csnake.obj
-         Debug\moc_csnakecore.obj
-         Debug\qrc_qtsnake.obj
-         Debug\main.obj
-         Debug\csnake.obj
-         Debug\csnakecore.obj
-         LINK : 没有找到 E:\doc\tool\QtSnake\Win32\Debug\\QtSnake.exe 或上一个增量链接没有生成它；正在执行完全链接
+         所有输出均为最新。
          QtSnake.vcxproj -> E:\doc\tool\QtSnake\Win32\Debug\QtSnake.exe
-       Manifest:
-         C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"E:\doc\tool\QtSnake\Win32\Debug\\QtSnake.exe;#1" /manifest Debug\QtSnake.exe.intermediate.manifest
        FinalizeBuildStatus:
          正在删除文件“Debug\QtSnake.unsuccessfulbuild”。
          正在对“Debug\QtSnake.lastbuildstate”执行 Touch 任务。
@@ -26,4 +17,4 @@
 
 生成成功。
 
-已用时间 00:00:02.57
+已用时间 00:00:00.06

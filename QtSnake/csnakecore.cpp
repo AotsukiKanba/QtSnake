@@ -137,7 +137,7 @@ void CSnakeCore::drawGameTitle(QPainter &p)
 void CSnakeCore::drawGameObject(QPainter &p)
 {
 	static QColor gocolors[] = { Qt::transparent, Qt::red, Qt::white, Qt::gray, Qt::black, Qt::green, Qt::blue, Qt::cyan, Qt::magenta };
-	static QString ss[5] = { "", "♂", "≡", "≈", "▲" };
+	static QString ss[5] = { "", QString::fromLocal8Bit("♂"), QString::fromLocal8Bit("≡"), QString::fromLocal8Bit("≈"), QString::fromLocal8Bit("▲") };
 	static QString sd[5] = { "", QString::fromLocal8Bit("增长"),  QString::fromLocal8Bit("加速"),  QString::fromLocal8Bit("减速"),  QString::fromLocal8Bit("陨石") };
 
 	QFont font = p.font();
@@ -181,7 +181,7 @@ void CSnakeCore::drawGameObject(QPainter &p)
 	QFontMetrics texmt(texfont);
 	int texspc = 1;
 
-	QString ctrls[4] = {"↑ ↓ ← →", "W S A D", "I K J L", "8 5 4 6"};
+	QString ctrls[4] = {QString::fromLocal8Bit("↑ ↓ ← →"), "W S A D", "I K J L", "8 5 4 6"};
 	for (int i = 0; i <= m_player; ++i)
 	{
 		p.setFont(capfont);
